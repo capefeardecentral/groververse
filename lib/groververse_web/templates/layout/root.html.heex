@@ -5,25 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
-    <%= live_title_tag assigns[:page_title] || "Groververse", suffix: " · Phoenix Framework" %>
+    <%= live_title_tag assigns[:page_title] || "Groververse" %>
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav>
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
+    <header class="bg-emerald-600">
+      <nav class="mx-auto px-6 lg:px-10" aria-label="Top">
+        <div class="flex w-full items-center justify-between border-b border-emerald-500 py-6 lg:border-none">
+          <div class="flex items-center">
+            <a href="/">
+              <h1 class="text-2xl font-light text-white">groververse</h1>
+            </a>
+            <%#
+            maybe add later
+            <div class="ml-10 hidden space-x-8 lg:block">
+              <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Solutions</a>
+
+              <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Pricing</a>
+
+              <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Docs</a>
+
+              <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Company</a>
+            </div>
+            %>
+          </div>
+          <div class="ml-10 space-x-4">
+            <%= render "_user_menu.html", assigns %>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-x-6 py-4 lg:hidden">
+          <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Solutions</a>
+
+          <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Pricing</a>
+
+          <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Docs</a>
+
+          <a href="#" class="text-base font-medium text-white hover:text-emerald-50">Company</a>
+        </div>
+      </nav>
     </header>
     <%= @inner_content %>
   </body>
