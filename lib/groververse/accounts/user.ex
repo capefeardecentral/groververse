@@ -6,6 +6,8 @@ defmodule Groververse.Accounts.User do
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
+    field :username, :string
+    field :is_admin, :boolean, default: false
     field :confirmed_at, :naive_datetime
 
     timestamps()
@@ -30,9 +32,10 @@ defmodule Groververse.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :username])
     |> validate_email()
     |> validate_password(opts)
+    |> validate_username()
   end
 
   defp validate_email(changeset) do
@@ -53,6 +56,16 @@ defmodule Groververse.Accounts.User do
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
     |> maybe_hash_password(opts)
   end
+
+  defp validate_username(changeset) do
+    changeset
+    |> validate_required([:username])
+    |> validate_format(:username, ~r/^\w+$/, message: "invalid username")
+    |> validate_length(:username, max: 20)
+    |> unsafe_validate_unique(:username, Groververse.Repo)
+    |> unique_constraint(:username)
+  end
+
 
   defp maybe_hash_password(changeset, opts) do
     hash_password? = Keyword.get(opts, :hash_password, true)

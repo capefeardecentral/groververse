@@ -7,6 +7,8 @@ defmodule Groververse.Repo.Migrations.CreateUsersAuthTables do
     create table(:users) do
       add :email, :citext, null: false
       add :hashed_password, :string, null: false
+      add :username, :string, null: false
+      add :is_admin, :boolean, null: false, default: false
       add :confirmed_at, :naive_datetime
       timestamps()
     end
