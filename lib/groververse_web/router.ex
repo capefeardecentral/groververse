@@ -57,6 +57,13 @@ defmodule GroververseWeb.Router do
     end
   end
 
+  ## Admin Routes
+  scope "/", GroververseWeb do
+    pipe_through [:browser, :require_admin]
+    get "/new_post", PostController, :index
+    post "/new_post", PostController, :create
+
+  end
   ## Authentication routes
 
   scope "/", GroververseWeb do
