@@ -18,10 +18,5 @@ defmodule GroververseWeb.PostController do
         render(conn, "new.html", changeset: changeset)
     end
   end
-#
-#  def new(conn, _params) do
-#    changeset = Posts.new_post(%Posts.Post{})
-#    render(conn, "new.html", changeset: changeset)
-#  end
 
 end

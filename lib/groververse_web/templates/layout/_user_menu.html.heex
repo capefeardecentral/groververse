@@ -1,6 +1,9 @@
 <div>
 <%= if @current_user do %>
   <span class="px-5 text-white"><%= @current_user.username %></span>
+  <%= if @current_user.is_admin do %>
+    <div class="inline-block rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75"><%= link "New Post", to: Routes.post_path(@conn, :index) %></div>
+  <% end %>
   <div class="inline-block rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75"><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></div>
   <div class="inline-block rounded-md border border-transparent bg-white py-2 px-4 text-base font-medium text-emerald-600 hover:bg-emerald-50"><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></div>
 <% else %>
