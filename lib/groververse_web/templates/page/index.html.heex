@@ -1,3 +1,3 @@
 <div>
-    <%= render(GroververseWeb.PostView, "all.html", posts: @posts) %>
+    <%= render(GroververseWeb.PostView, "all.html", %{:posts => @posts, :conn => @conn}) %>
 </div>

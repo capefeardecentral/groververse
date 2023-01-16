@@ -6,7 +6,9 @@
             <div class="space-y-4">
                 <div class="aspect-w-3 aspect-h-3">
                     <div class="p-2 bg-emerald-500">
-                    <img class="object-cover shadow-lg" src={post.url} alt=""/>
+                        <%= link to: Routes.post_path(@conn, :show, post.id) do %>
+                            <img class="object-cover shadow-lg" src={post.url} alt=""/>
+                        <% end %>
                     </div>
                     <h2><%= post.caption %></h2>
                 </div>

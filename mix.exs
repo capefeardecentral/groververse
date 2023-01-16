@@ -54,7 +54,8 @@ defmodule Groververse.MixProject do
       {:ex_aws_s3, "~> 2.2"},
       {:hackney, "~> 1.17"},
       {:configparser_ex, "~> 4.0"},
-      {:elixir_uuid, "~> 1.2"}
+      {:elixir_uuid, "~> 1.2"},
+      {:timex, "~> 3.7"}
     ]
   end
 

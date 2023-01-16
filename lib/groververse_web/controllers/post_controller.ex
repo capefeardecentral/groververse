@@ -2,6 +2,7 @@ defmodule GroververseWeb.PostController do
   use GroververseWeb, :controller
 
   alias Groververse.Post
+  alias Groververse.Repo
 
   def index(conn, _params) do
     changeset = Post.changeset(%Post{}, _params)
@@ -17,6 +18,11 @@ defmodule GroververseWeb.PostController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
+  end
+
+  def show(conn, %{"id" => id}) do
+    post = Repo.get!(Post, id)
+    render(conn, "show.html", post: post)
   end
 
 end
