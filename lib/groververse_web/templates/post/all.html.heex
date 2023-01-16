@@ -1,0 +1,18 @@
+<div class="mx-auto max-w-7xl py-12 px-6 lg:px-8 lg:py-24">
+    <div class="space-y-12">
+        <ul class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8">
+    <%= Enum.map(@posts, fn post -> %>
+    <li>
+            <div class="space-y-4">
+                <div class="aspect-w-3 aspect-h-3">
+                    <div class="p-2 bg-emerald-500">
+                    <img class="object-cover shadow-lg" src={post.url} alt=""/>
+                    </div>
+                    <h2><%= post.caption %></h2>
+                </div>
+        </div>
+    </li>
+    <% end) %>
+        </ul>
+    </div>
+</div>
