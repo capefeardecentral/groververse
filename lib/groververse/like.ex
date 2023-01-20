@@ -2,6 +2,8 @@ defmodule Groververse.Like do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Groververse.Like
+
   schema "likes" do
 
     field :user_id, :id
