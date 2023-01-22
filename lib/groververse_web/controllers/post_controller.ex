@@ -49,20 +49,10 @@ defmodule GroververseWeb.PostController do
     end
   end
 
-  def get_user_likes(conn, %{"post_id" => post_id}) do
-    likes = Repo.get_by(Like, [post_id: post_id, user_id: conn.assigns.current_user.id])
-    likes
-  end
-
-  def get_all_likes(conn, %{"post_id" => post_id}) do
-    likes = Repo.one(from l in Like, where: l.post_id == ^post_id, select: count(l.id))
-    likes
-  end
-
   def show(conn, %{"id" => id}) do
-    post = Repo.get!(Post, id)
-    user_likes = get_user_likes(conn, %{"post_id" => id})
-    all_likes = get_all_likes(conn, %{"post_id" => id})
+    post = Post.get_post(id)
+    user_likes = Like.get_user_likes(conn, %{"post_id" => id})
+    all_likes = Like.get_all_likes(conn, %{"post_id" => id})
     render(conn, "show.html", post: post, user_likes: user_likes, all_likes: all_likes)
   end
 

@@ -5,7 +5,7 @@ defmodule GroververseWeb.PageController do
   alias Groververse.Repo
 
   def index(conn, _params) do
-    posts = Repo.all(Post)
+    posts = Post.get_all_posts()
     render(conn, "index.html", posts: posts)
   end
 

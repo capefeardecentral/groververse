@@ -29,6 +29,16 @@ defmodule Groververse.Post do
     |> validate_required([:url])
   end
 
+  def get_post(id) do
+    post = Repo.get!(Post, id)
+    post
+  end
+
+  def get_all_posts() do
+    posts = Repo.all(Post)
+    posts
+  end
+
   def upload_file(attrs) do
     file = attrs["file"]
     ext = Path.extname(file.filename)
