@@ -1,5 +1,7 @@
 # Groververse
 
+toy app to relearn phoenix and elixir
+
 self-hosted minimalist photography gallery
 
 To start your Phoenix server:

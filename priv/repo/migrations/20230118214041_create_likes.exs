@@ -9,6 +9,7 @@ defmodule Groververse.Repo.Migrations.CreateLikes do
       timestamps()
     end
 
+    create unique_index(:likes, [:user_id, :post_id], name: :likes_user_id_post_id_index)
     create index(:likes, [:user_id])
     create index(:likes, [:post_id])
   end
