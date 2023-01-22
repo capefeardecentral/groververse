@@ -1,5 +1,5 @@
 <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
+    <.form :let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
     <%= if @changeset.action do %>
         <div class="alert alert-danger">
             <p>Oops, something went wrong! Please check the errors below.</p>

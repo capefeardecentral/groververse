@@ -1,0 +1,10 @@
+<div>
+    <%= if @current_user do %>
+        <%= if @user_likes do %>
+            <%= link "<3", to: Routes.post_path(@conn, :unlike_post, @post.id), method: :delete, class: "text-red-600" %>
+        <% else %>
+            <%= link "<3", to: Routes.post_path(@conn, :like_post, @post.id), method: :post, class: "text-black-900" %>
+        <% end %>
+        <span><%= @all_likes %> likes</span>
+    <% end %>
+</div>

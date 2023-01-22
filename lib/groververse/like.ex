@@ -3,6 +3,7 @@ defmodule Groververse.Like do
   import Ecto.Changeset
 
   alias Groververse.Like
+  alias Groververse.Repo
 
   schema "likes" do
 
@@ -16,6 +17,11 @@ defmodule Groververse.Like do
     %Like{}
     |> Like.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def unlike_post(attrs) do
+    like = Repo.get_by(Like, [post_id: attrs["post_id"], user_id: attrs["user_id"]])
+    |> Repo.delete()
   end
 
   @doc false

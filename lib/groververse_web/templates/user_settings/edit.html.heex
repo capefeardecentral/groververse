@@ -15,7 +15,7 @@
             <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
                 <div class="sm:col-span-4">
-                    <.form let={f} for={@email_changeset} action={Routes.user_settings_path(@conn, :update)}
+                    <.form :let={f} for={@email_changeset} action={Routes.user_settings_path(@conn, :update)}
                     id="update_email">
                     <%= if @email_changeset.action do %>
                     <div class="alert alert-danger">
@@ -50,7 +50,7 @@
         <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
 
             <div class="sm:col-span-4">
-                <.form let={f} for={@password_changeset} action={Routes.user_settings_path(@conn, :update)}
+                <.form :let={f} for={@password_changeset} action={Routes.user_settings_path(@conn, :update)}
                 id="update_password">
                 <%= if @password_changeset.action do %>
                 <div class="alert alert-danger">

@@ -62,6 +62,8 @@ defmodule GroververseWeb.Router do
     pipe_through [:browser]
 
     get "/post/:id", PostController, :show
+    post "/post/like/:id", PostController, :like_post
+    delete "/post/like/:id", PostController, :unlike_post
   end
 
   ## Admin Routes

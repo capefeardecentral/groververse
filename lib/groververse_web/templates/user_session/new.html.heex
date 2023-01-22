@@ -1,5 +1,5 @@
 <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <.form let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
+    <.form :let={f} for={@conn} action={Routes.user_session_path(@conn, :create)} as={:user}>
     <%= if @error_message do %>
     <div class="alert alert-danger">
         <p><%= @error_message %></p>
