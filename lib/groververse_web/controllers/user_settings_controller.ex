@@ -50,6 +50,21 @@ defmodule GroververseWeb.UserSettingsController do
     end
   end
 
+  def update(conn, %{"action" => "update_avatar"} = params) do
+    %{"user" => file} = params
+    user = conn.assigns.current_user
+
+    case Accounts.update_user_avatar(user, file) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "Avatar updated successfully.")
+        |> redirect(to: Routes.user_settings_path(conn, :edit))
+
+      {:error, changeset} ->
+        render(conn, "edit.html", avatar_changeset: changeset)
+    end
+  end
+
   def confirm_email(conn, %{"token" => token}) do
     case Accounts.update_user_email(conn.assigns.current_user, token) do
       :ok ->
@@ -70,5 +85,6 @@ defmodule GroververseWeb.UserSettingsController do
     conn
     |> assign(:email_changeset, Accounts.change_user_email(user))
     |> assign(:password_changeset, Accounts.change_user_password(user))
+    |> assign(:avatar_changeset, Accounts.change_user_avatar(user))
   end
 end

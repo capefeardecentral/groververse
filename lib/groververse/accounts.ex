@@ -108,6 +108,10 @@ defmodule Groververse.Accounts do
     User.email_changeset(user, attrs)
   end
 
+  def change_user_avatar(user, attrs \\ %{}) do
+    User.avatar_changeset(user, attrs)
+  end
+
   @doc """
   Emulates that the email will change without actually changing
   it in the database.
@@ -213,6 +217,19 @@ defmodule Groververse.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  def update_user_avatar(user, attrs) do
+    avatar_url = User.upload_avatar(attrs)
+    attrs_with_url = Map.put(attrs, "avatar", avatar_url)
+
+    user
+    |> User.avatar_changeset(attrs_with_url)
+    |> Repo.update()
+    |> case do
+         {:ok, _} -> {:ok, user}
+         {:error, :user, changeset, _} -> {:error, changeset}
+       end
   end
 
   ## Session

@@ -7,6 +7,7 @@ defmodule Groververse.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :username, :string
+    field :avatar, :string, default: "https://groververse.s3.amazonaws.com/avatars/default.jpg"
     field :is_admin, :boolean, default: false
     field :confirmed_at, :naive_datetime
 
@@ -32,7 +33,7 @@ defmodule Groververse.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :username])
+    |> cast(attrs, [:email, :password, :username, :avatar, :is_admin])
     |> validate_email()
     |> validate_password(opts)
     |> validate_username()
@@ -114,6 +115,24 @@ defmodule Groververse.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_password(opts)
+  end
+
+  def avatar_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:avatar])
+  end
+
+  def upload_avatar(attrs) do
+    file = attrs["file"]
+    ext = Path.extname(file.filename)
+    file_uuid = UUID.uuid4()
+    s3_filename = "avatars/#{file_uuid}#{ext}"
+    s3_bucket = "groververse"
+    {:ok, file_binary} = File.read(file.path)
+    {:ok, _} = ExAws.S3.put_object(s3_bucket, s3_filename, file_binary)
+               |> ExAws.request
+    url = "https://s3.amazonaws.com/#{s3_bucket}/#{s3_filename}"
+    url
   end
 
   @doc """

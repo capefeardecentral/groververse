@@ -8,6 +8,7 @@ defmodule Groververse.Repo.Migrations.CreateUsersAuthTables do
       add :email, :citext, null: false
       add :hashed_password, :string, null: false
       add :username, :string, null: false
+      add :avatar, :string, null: false, default: "https://groververse.s3.amazonaws.com/avatars/default.jpg"
       add :is_admin, :boolean, null: false, default: false
       add :confirmed_at, :naive_datetime
       timestamps()
