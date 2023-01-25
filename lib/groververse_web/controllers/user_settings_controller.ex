@@ -55,7 +55,7 @@ defmodule GroververseWeb.UserSettingsController do
     user = conn.assigns.current_user
 
     case Accounts.update_user_avatar(user, file) do
-      {:ok, user} ->
+      {:ok, ^user} ->
         conn
         |> put_flash(:info, "Avatar updated successfully.")
         |> redirect(to: Routes.user_settings_path(conn, :edit))

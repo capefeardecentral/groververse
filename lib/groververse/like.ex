@@ -21,7 +21,7 @@ defmodule Groververse.Like do
   end
 
   def unlike_post(attrs) do
-    like = Repo.get_by(Like, [post_id: attrs["post_id"], user_id: attrs["user_id"]])
+    Repo.get_by(Like, [post_id: attrs["post_id"], user_id: attrs["user_id"]])
     |> Repo.delete()
   end
 
@@ -30,7 +30,7 @@ defmodule Groververse.Like do
     likes
   end
 
-  def get_all_likes(conn, %{"post_id" => post_id}) do
+  def get_all_likes(%{"post_id" => post_id}) do
     likes = Repo.one(from l in Like, where: l.post_id == ^post_id, select: count(l.id))
     likes
   end

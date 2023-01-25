@@ -21,11 +21,11 @@ defmodule Groververse.Comment do
   end
 
   def delete_comment(attrs) do
-    comment = Repo.get(Comment, attrs["id"])
+    Repo.get(Comment, attrs["id"])
     |> Repo.delete()
   end
 
-  def get_comments_for_post(conn, %{"post_id" => post_id}) do
+  def get_comments_for_post(%{"post_id" => post_id}) do
     comments = Repo.all(from c in Comment, where: c.post_id == ^post_id, order_by: [desc: c.inserted_at])
     comments
   end

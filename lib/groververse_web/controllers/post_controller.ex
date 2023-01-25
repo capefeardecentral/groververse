@@ -1,9 +1,7 @@
 defmodule GroververseWeb.PostController do
   use GroververseWeb, :controller
-  import Ecto.Query
 
   alias Groververse.Post
-  alias Groververse.Repo
   alias Groververse.Like
 
   def index(conn, params) do
@@ -28,7 +26,7 @@ defmodule GroververseWeb.PostController do
         conn
         |> put_flash(:info, "Post liked")
         |> redirect(to: Routes.post_path(conn, :show, post_id))
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{} = _changeset} ->
         conn
         |> put_flash(:info, "Error liking post")
         |> redirect(to: Routes.post_path(conn, :show, post_id))
@@ -41,7 +39,7 @@ defmodule GroververseWeb.PostController do
         conn
         |> put_flash(:info, "Post unliked")
         |> redirect(to: Routes.post_path(conn, :show, post_id))
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{} = _changeset} ->
         conn
         |> put_flash(:info, "Error unliking post")
         |> redirect(to: Routes.post_path(conn, :show, post_id))
@@ -52,7 +50,7 @@ defmodule GroververseWeb.PostController do
   def show(conn, %{"id" => id}) do
     post = Post.get_post(id)
     user_likes = Like.get_user_likes(conn, %{"post_id" => id})
-    all_likes = Like.get_all_likes(conn, %{"post_id" => id})
+    all_likes = Like.get_all_likes(%{"post_id" => id})
     render(conn, "show.html", post: post, user_likes: user_likes, all_likes: all_likes)
   end
 
