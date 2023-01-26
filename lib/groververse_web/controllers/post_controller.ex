@@ -3,6 +3,7 @@ defmodule GroververseWeb.PostController do
 
   alias Groververse.Post
   alias Groververse.Like
+  alias Groververse.Comment
 
   def index(conn, params) do
     changeset = Post.changeset(%Post{}, params)
@@ -48,8 +49,11 @@ defmodule GroververseWeb.PostController do
   end
 
   def comment_post(conn, params) do
-    post_id = params["post_id"]
-    case Comment.post_comment(params) do
+    post_id = params["id"]
+    user_id = conn.assigns.current_user.id
+    content = params["comment"]["content"]
+    attrs = %{ "user_id" => user_id, "post_id" => post_id, "content" => content }
+    case Comment.post_comment(attrs) do
       {:ok, _comment} ->
         conn
         |> put_flash(:info, "Comment created successfully.")
@@ -57,15 +61,17 @@ defmodule GroververseWeb.PostController do
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> put_flash(:info, "Error creating comment")
-        |> redirect(to: Routes.post_path(conn, :show, post_id))
+        |> redirect(to: Routes.post_path(conn, :show, post_id, comment_changeset: changeset))
     end
   end
 
   def show(conn, %{"id" => id}) do
+    changeset = Comment.changeset(%Comment{}, %{"post_id" => id})
     post = Post.get_post(id)
     user_likes = Like.get_user_likes(conn, %{"post_id" => id})
     all_likes = Like.get_all_likes(%{"post_id" => id})
-    render(conn, "show.html", post: post, user_likes: user_likes, all_likes: all_likes)
+    all_comments = Comment.get_comments_for_post(%{"post_id" => id})
+    render(conn, "show.html", post: post, user_likes: user_likes, all_likes: all_likes, all_comments: all_comments, comment_changeset: changeset)
   end
 
 end

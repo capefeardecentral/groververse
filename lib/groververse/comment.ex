@@ -5,6 +5,7 @@ defmodule Groververse.Comment do
 
   alias Groververse.Comment
   alias Groververse.Repo
+  alias Groververse.Accounts.User
 
   schema "post_comments" do
     field :content, :string
@@ -26,13 +27,21 @@ defmodule Groververse.Comment do
   end
 
   def get_comments_for_post(%{"post_id" => post_id}) do
-    Repo.all(from c in Comment, where: c.post_id == ^post_id, order_by: [desc: c.inserted_at])
+    query = from(c in Comment,
+      join: u in User,
+      on: c.user_id == u.id,
+      where: c.post_id == ^post_id,
+      order_by: [desc: c.inserted_at],
+      select: %{:username => u.username, :avatar => u.avatar, :content => c.content, :inserted_at => c.inserted_at}
+    )
+    Repo.all(query)
+#    Repo.all(query)
   end
 
   @doc false
   def changeset(comment, attrs) do
     comment
-    |> cast(attrs, [:content])
-    |> validate_required([:content])
+    |> cast(attrs, [:content, :user_id, :post_id])
+    |> validate_required([:content, :user_id, :post_id])
   end
 end

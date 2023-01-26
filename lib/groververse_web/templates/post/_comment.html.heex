@@ -1,0 +1,14 @@
+<%= Enum.map(@all_comments, fn comment -> %>
+<div class="flex space-x-4 text-sm text-gray-500">
+    <div class="flex-none py-10">
+        <img src={comment.avatar} alt="" class="h-10 w-10 rounded-full bg-gray-100">
+    </div>
+    <div class="py-10">
+        <h3 class="font-medium text-gray-900"><%= comment.username %></h3>
+        <div class="prose prose-sm mt-4 max-w-none text-gray-500">
+            <p><%= comment.content %></p>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">(posted <time><%= clean_date(comment.inserted_at) %></time>)</p>
+    </div>
+</div>
+<% end) %>
