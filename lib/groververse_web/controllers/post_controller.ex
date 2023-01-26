@@ -47,6 +47,20 @@ defmodule GroververseWeb.PostController do
     end
   end
 
+  def comment_post(conn, params) do
+    post_id = params["post_id"]
+    case Comment.post_comment(params) do
+      {:ok, _comment} ->
+        conn
+        |> put_flash(:info, "Comment created successfully.")
+        |> redirect(to: Routes.post_path(conn, :show, post_id))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:info, "Error creating comment")
+        |> redirect(to: Routes.post_path(conn, :show, post_id))
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     post = Post.get_post(id)
     user_likes = Like.get_user_likes(conn, %{"post_id" => id})

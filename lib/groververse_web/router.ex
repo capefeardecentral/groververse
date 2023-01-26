@@ -64,6 +64,7 @@ defmodule GroververseWeb.Router do
     get "/post/:id", PostController, :show
     post "/post/like/:id", PostController, :like_post
     delete "/post/like/:id", PostController, :unlike_post
+    post "/post/comment/:id", PostController, :comment_post
   end
 
   ## Admin Routes
