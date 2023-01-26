@@ -30,13 +30,11 @@ defmodule Groververse.Post do
   end
 
   def get_post(id) do
-    post = Repo.get!(Post, id)
-    post
+    Repo.get!(Post, id)
   end
 
   def get_all_posts() do
-    posts = Repo.all(Post)
-    posts
+    Repo.all(Post)
   end
 
   def upload_file(attrs) do
@@ -48,8 +46,7 @@ defmodule Groververse.Post do
     {:ok, file_binary} = File.read(file.path)
     {:ok, _} = ExAws.S3.put_object(s3_bucket, s3_filename, file_binary)
                |> ExAws.request
-    url = "https://s3.amazonaws.com/#{s3_bucket}/#{s3_filename}"
-    url
+   "https://s3.amazonaws.com/#{s3_bucket}/#{s3_filename}"
   end
 
 end

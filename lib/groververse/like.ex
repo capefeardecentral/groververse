@@ -26,13 +26,11 @@ defmodule Groververse.Like do
   end
 
   def get_user_likes(conn, %{"post_id" => post_id}) do
-    likes = Repo.get_by(Like, [post_id: post_id, user_id: conn.assigns.current_user.id])
-    likes
+    Repo.get_by(Like, [post_id: post_id, user_id: conn.assigns.current_user.id])
   end
 
   def get_all_likes(%{"post_id" => post_id}) do
-    likes = Repo.one(from l in Like, where: l.post_id == ^post_id, select: count(l.id))
-    likes
+    Repo.one(from l in Like, where: l.post_id == ^post_id, select: count(l.id))
   end
 
   @doc false
