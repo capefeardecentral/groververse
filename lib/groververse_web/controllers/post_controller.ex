@@ -17,12 +17,20 @@ defmodule GroververseWeb.PostController do
         |> put_flash(:info, "Post created successfully.")
         |> redirect(to: Routes.page_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_flash(:error, "error uploading file")
+        render(conn, "new.html", changeset: changeset)
+      {:error, error} ->
+        changeset = Post.changeset(%Post{}, post_params)
+        conn
+        |> put_flash(:error, error)
         render(conn, "new.html", changeset: changeset)
     end
   end
 
+  # TODO - lets live component instead of rerender
   def like_post(conn, %{"id" => post_id}) do
-    case Like.like_post(%{ "user_id" => conn.assigns.current_user.id, "post_id" => post_id }) do
+    case Like.like_post(%{"user_id" => conn.assigns.current_user.id, "post_id" => post_id}) do
       {:ok, _like} ->
         conn
         |> put_flash(:info, "Post liked")
@@ -52,7 +60,7 @@ defmodule GroververseWeb.PostController do
     post_id = params["id"]
     user_id = conn.assigns.current_user.id
     content = params["comment"]["content"]
-    attrs = %{ "user_id" => user_id, "post_id" => post_id, "content" => content }
+    attrs = %{"user_id" => user_id, "post_id" => post_id, "content" => content}
     case Comment.post_comment(attrs) do
       {:ok, _comment} ->
         conn

@@ -220,16 +220,18 @@ defmodule Groververse.Accounts do
   end
 
   def update_user_avatar(user, attrs) do
-    avatar_url = User.upload_avatar(attrs)
-    attrs_with_url = Map.put(attrs, "avatar", avatar_url)
-
-    user
-    |> User.avatar_changeset(attrs_with_url)
-    |> Repo.update()
-    |> case do
-         {:ok, _} -> {:ok, user}
-         {:error, :user, changeset, _} -> {:error, changeset}
-       end
+     case User.upload_avatar(attrs) do
+       {:ok, avatar_url} ->
+         attrs_with_url = Map.put(attrs, "avatar", avatar_url)
+         user
+         |> User.avatar_changeset(attrs_with_url)
+         |> Repo.update()
+         |> case do
+              {:ok, _} -> {:ok}
+              {:error, :user, changeset, _} -> {:error, changeset}
+            end
+       {:error, changeset} -> {:error, changeset}
+     end
   end
 
   ## Session

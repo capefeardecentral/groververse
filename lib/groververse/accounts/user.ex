@@ -128,11 +128,14 @@ defmodule Groververse.Accounts.User do
     file_uuid = UUID.uuid4()
     s3_filename = "avatars/#{file_uuid}#{ext}"
     s3_bucket = "groververse"
-    {:ok, file_binary} = File.read(file.path)
-    {:ok, _} = ExAws.S3.put_object(s3_bucket, s3_filename, file_binary)
-               |> ExAws.request
-    url = "https://s3.amazonaws.com/#{s3_bucket}/#{s3_filename}"
-    url
+    case File.read(file.path) do
+      {ok, file_binary} ->
+        case ExAws.S3.put_object(s3_bucket, s3_filename, file_binary) |> ExAws.request do
+          {:ok, _} -> {:ok, "https://s3.amazonaws.com/#{s3_bucket}/#{s3_filename}"}
+          {:error, _} -> {:error, "Error uploading file"}
+        end
+      {:error, _} -> {:error, "Error reading file"}
+    end
   end
 
   @doc """

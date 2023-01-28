@@ -31,11 +31,10 @@ defmodule Groververse.Comment do
       join: u in User,
       on: c.user_id == u.id,
       where: c.post_id == ^post_id,
-      order_by: [desc: c.inserted_at],
+      order_by: [asc: c.inserted_at],
       select: %{:username => u.username, :avatar => u.avatar, :content => c.content, :inserted_at => c.inserted_at}
     )
     Repo.all(query)
-#    Repo.all(query)
   end
 
   @doc false
