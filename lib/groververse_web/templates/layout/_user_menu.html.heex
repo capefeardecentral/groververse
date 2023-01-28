@@ -1,11 +1,14 @@
-<div>
+<div class="flex flex-1 items-center space-x-2 justify-center text-center justify-start">
 <%= if @current_user do %>
-  <span class="px-5 text-white"><%= @current_user.username %></span>
   <%= if @current_user.is_admin do %>
-    <div class="inline-block rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75"><%= link "New Post", to: Routes.post_path(@conn, :index) %></div>
+    <div class="inline-block rounded-md border border-transparent bg-emerald-500 text-xs py-1 px-4 md:py-2 md:text-base text-white hover:bg-opacity-75"><%= link "New Post", to: Routes.post_path(@conn, :index) %></div>
   <% end %>
-  <div class="inline-block rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75"><%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete %></div>
-  <div class="inline-block rounded-md border border-transparent bg-white py-2 px-4 text-base font-medium text-emerald-600 hover:bg-emerald-50"><%= link "Settings", to: Routes.user_settings_path(@conn, :edit) %></div>
+  <div class="inline-block rounded-md border border-transparent bg-emerald-500 py-1 md:py-2 px-4 text-xs md:text-base text-white hover:bg-opacity-75"><%= link "Log Out", to: Routes.user_session_path(@conn, :delete), method: :delete %></div>
+  <div class="inline-block">
+    <%= link to: Routes.user_settings_path(@conn, :edit) do  %>
+      <img src={@current_user.avatar} alt="" class="h-12 w-12 rounded-full bg-gray-100">
+    <% end %>
+  </div>
 <% else %>
   <div class="inline-block rounded-md border border-transparent bg-emerald-500 py-2 px-4 text-base font-medium text-white hover:bg-opacity-75"><%= link "Sign in", to: Routes.user_session_path(@conn, :new) %></div>
   <div class="inline-block rounded-md border border-transparent bg-white py-2 px-4 text-base font-medium text-emerald-600 hover:bg-emerald-50"><%= link "Sign up", to: Routes.user_registration_path(@conn, :new) %></div>
