@@ -5,6 +5,6 @@
         <% else %>
             <%= link "<3", to: Routes.post_path(@conn, :like_post, @post.id), method: :post, class: "text-black-900" %>
         <% end %>
-        <span><%= @all_likes %> likes</span>
     <% end %>
+        <span>&lt;3 <%= @all_likes %> likes</span>
 </div>
